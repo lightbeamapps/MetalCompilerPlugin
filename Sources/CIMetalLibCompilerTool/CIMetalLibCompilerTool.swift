@@ -1,9 +1,16 @@
+//
+//  CIMetalLibCompilerTool.swift
+//
+//
+//  Created by dave on 15/10/23.
+//
+
 import ArgumentParser
 import Foundation
 import os
 
 @main
-struct MetalCompilerTool: ParsableCommand {
+struct CIMetalLibCompilerTool: ParsableCommand {
     @Option(name: .shortAndLong)
     var output: String
 
@@ -14,15 +21,15 @@ struct MetalCompilerTool: ParsableCommand {
         let p = Process()
         p.executableURL = URL(fileURLWithPath: "/usr/bin/xcrun")
         p.arguments = [
-            "metal",
+            "metallib",
         ]
             + inputs
             + [
+                "-cikernel",
                 "-o",
                 output,
                 "-gline-tables-only",
                 "-frecord-sources",
-                "-fcikernel",
             ]
         try p.run()
     }

@@ -3,7 +3,7 @@ import Foundation
 import os
 
 @main
-struct MetalCompilerTool: ParsableCommand {
+struct CIMetalCompilerTool: ParsableCommand {
     @Option(name: .shortAndLong)
     var output: String
 
@@ -18,12 +18,18 @@ struct MetalCompilerTool: ParsableCommand {
         ]
             + inputs
             + [
+                "-fcikernel",
                 "-o",
                 output,
                 "-gline-tables-only",
                 "-frecord-sources",
-                "-fcikernel",
             ]
         try p.run()
+        
+        let p2 = Process()
+        p2.executableURL = URL(fileURLWithPath: "/bin/rm")
+        p2.arguments = inputs
+        
+        try p2.run()
     }
 }
